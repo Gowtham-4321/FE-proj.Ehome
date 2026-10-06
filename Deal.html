@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deals</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+</head>
+<body>
+    
+    <section class="hero">
+    <h1>🔥 Mega Deals</h1>
+    <p>Limited Time Offers</p>
+
+    <div class="timer">
+        Ends In
+        <span id="countdown"></span>
+    </div>
+</section>
+
+<div class="filters">
+
+<input type="text"
+id="search"
+placeholder="Search deals...">
+
+<select id="category">
+<option>All</option>
+<option>Electronics</option>
+<option>Fashion</option>
+<option>Home</option>
+
+</select>
+
+</div>
+
+<section class="deal-grid" id="products">
+
+    
+
+</section>
+<a href="Ehome.html" class="back">← Back to home</a>
+
+
+
+<style>
+    body{
+/* background:rgb(31, 31, 61); */
+background:linear-gradient(135deg,#a169bb,#716dbd);
+font-family:Poppins,sans-serif;
+
+}
+
+.hero{
+
+/* background:linear-gradient(135deg,#ff6b6b,#ffb347); */
+background:rgb(125, 67, 231);
+padding:60px;
+border-radius:20px;
+color:white;
+text-align:center;
+margin:30px;
+
+}
+
+.timer{
+
+margin-top:20px;
+font-size:28px;
+font-weight:bold;
+
+}
+
+.filters{
+
+display:flex;
+gap:20px;
+justify-content:center;
+margin:30px;
+
+}
+
+.filters input,
+.filters select{
+
+padding:12px;
+border-radius:10px;
+border:none;
+width:250px;
+
+}
+
+.deal-grid{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
+padding:30px;
+
+}
+
+.card{
+
+background:rgb(86, 28, 141);
+border-radius:20px;
+padding:20px;
+position:relative;
+transition:.3s;
+box-shadow:0 10px 25px rgba(0,0,0,.1);
+
+}
+
+.card:hover{
+
+transform:translateY(-8px);
+
+}
+
+.discount{
+
+position:absolute;
+top:15px;
+right:15px;
+
+background:rgb(223, 129, 23);
+color:white;
+padding:8px 12px;
+border-radius:50px;
+
+}
+
+.image{
+
+font-size:70px;
+text-align:center;
+margin:20px;
+
+}
+
+.old{
+
+text-decoration:line-through;
+color:white;
+
+}
+
+.new{
+
+color:#ff5722;
+font-size:24px;
+font-weight:bold;
+
+}
+
+.progress{
+
+height:8px;
+background:#ddd;
+border-radius:50px;
+margin:15px 0;
+
+}
+
+.progress div{
+
+height:100%;
+background:#4CAF50;
+border-radius:50px;
+
+}
+
+button{
+font-weight:bold;
+width:100%;
+padding:12px;
+border:none;
+/* background:#2563eb; */
+background:rgb(231, 149, 54);
+color:white;
+border-radius:10px;
+cursor:pointer;
+
+}
+
+button:hover{
+background:rgb(240, 184, 100);
+color:black;
+font-weight:bold;
+/* background:#1d4ed8; */
+
+}
+
+.back{
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #515ad3;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.back:hover {
+  background-color: #8c5cd8;
+}
+</style>
+
+
+
+
+
+<script>
+    const deals=[
+
+{
+
+name:"Wireless Headphones",
+emoji:"🎧",
+old:99,
+price:59,
+rating:4.8,
+category:"Electronics",
+left:12,
+discount:40
+
+},
+
+{
+
+name:"Running Shoes",
+emoji:"👟",
+old:80,
+price:49,
+rating:4.7,
+category:"Fashion",
+left:8,
+discount:38
+
+},
+
+{
+
+name:"Coffee Maker",
+emoji:"☕",
+old:120,
+price:79,
+rating:4.6,
+category:"Home",
+left:5,
+discount:34
+
+},
+
+{
+
+name:"Smart Watch",
+emoji:"⌚",
+old:199,
+price:129,
+rating:4.9,
+category:"Electronics",
+left:15,
+discount:35
+
+}
+
+];
+
+const products=document.getElementById("products");
+
+function render(data){
+
+products.innerHTML="";
+
+data.forEach(item=>{
+
+products.innerHTML+=`
+
+<div class="card">
+
+<div class="discount">
+
+-${item.discount}%
+
+</div>
+
+<div class="image">
+
+${item.emoji}
+
+</div>
+
+<h3>${item.name}</h3>
+
+⭐ ${item.rating}
+
+<p>
+
+<span class="old">$${item.old}</span>
+
+<span class="new">$${item.price}</span>
+
+</p>
+
+<div class="progress">
+
+<div style="width:${item.left*5}%">
+
+</div>
+
+</div>
+
+${item.left} items left
+
+<button>Add To Cart</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+render(deals);
+
+document.getElementById("search").oninput=function(){
+
+const q=this.value.toLowerCase();
+
+render(deals.filter(x=>
+
+x.name.toLowerCase().includes(q)
+
+));
+
+};
+
+document.getElementById("category").onchange=function(){
+
+const c=this.value;
+
+if(c==="All"){
+
+render(deals);
+
+}else{
+
+render(deals.filter(x=>x.category===c));
+
+}
+
+};
+
+function countdown(){
+
+const end=new Date().getTime()+86400000;
+
+setInterval(()=>{
+
+const now=new Date().getTime();
+
+const diff=end-now;
+
+const h=Math.floor(diff/1000/60/60);
+
+const m=Math.floor(diff/1000/60)%60;
+
+const s=Math.floor(diff/1000)%60;
+
+document.getElementById("countdown").innerHTML=
+
+`${h}h ${m}m ${s}s`;
+
+},1000);
+
+}
+
+countdown();
+</script>
